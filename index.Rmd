@@ -1,0 +1,68 @@
+---
+title       : Internet Services Market Share
+subtitle    : Find out what combo plans would give you the highest utility!
+author      : Valeria Fonseca Diaz
+job         : Statistician. Bogota, Colombia
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+
+--- 
+
+## What is a conjoint simulator?
+<div class='build'>
+<p>This is a market reseach tool that provides a 'utility estimate measure' for different potential products or services that are to be offered. In this particular application, the seller is a communications company (Internet services) and utilities for 3 potencial services at a time will be obtained. </p>
+
+
+<img class='center' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6UHbBGMZaVmTiTzbZc-1bxNEBWebmMbGWHqyfAXhAiN5np-JZ4w' height=250px width=250px/>
+
+<p> A conjoint simulator is mainly thought of as a room with a number of consumers (100,500, 1000, etc) who vote for the products or services that are offered. Finally, there will be a percentage for each product or service which represents the predicted proportion of consumers that would buy it. Here consumers are segmented so filters are available. </p>
+</div>
+
+---
+## What does the seller need to do here?
+
+The services that will be assessed consist of combinations of different attributes each with different options. For example:
+
+- Combo plan 1: T-mobile, Up to $30, 2MB, No Wi-Fi
+- Combo plan 2: Verizon, $30 - $50, 5MB, Customized Wi-Fi service
+
+are two different services that a company may offer. The simulator asks the seller to enter 3 combo plans. The attributes are carrier company, price, velocity and extra Wi-Fi service.
+
+<img class='center' src='http://images.sciencedaily.com/2014/02/140227115516-large.jpg' height=250px width=350px/>
+
+--- .class #id bg:#C5CACE
+
+## What is inside a conjoint simulator?
+Here is a little simulated example of what is done. Two services will be assessed. The utility matrix has utilities for each level of each attribute and intercept, for each of 5 consumers.
+```{r}
+set.seed(21432345)
+utilities=data.frame(matrix(rnorm(5*5,5,3),5,5))# must be previously obtained
+names(utilities)=c("b0", "at1_op1", "at1_op2", "at2_op1", "at2_op2") 
+ser1<-c("b0","at1_op1","at2_op2");         ser2<-c("b0","at2_op1","at2_op2")
+ser1_id<-which(names(utilities)%in%ser1); ser2_id<-which(names(utilities)%in%ser2)
+servs_sum<-data.frame(s1=apply(utilities[,ser1_id],1,sum),
+                      s2=apply(utilities[,ser2_id],1,sum))
+services_perc<-apply(apply(exp(servs_sum),1,function(x)x/sum(x)),1,mean)
+data.frame(Combos=c("Combo plan 1", "Combo plan 2"), 
+           Share=paste(round(services_perc*100,2),"%"))
+```
+
+
+---
+## Make decisions on what you get from the simulator
+<div class='build'>
+<q> Well, there should be no doubt about what service to sell, should it? </q>
+</div>
+```{r echo=FALSE, results='asis', message=FALSE}
+require(googleVis)
+Share=c(31.6, 68.4)
+Services=c("Combo plan 1", "Combo plan 2")
+data_to_plot<-data.frame(Services, Share) 
+Pie <- gvisColumnChart(data_to_plot,options=list(colors="['purple']",width=800, height=400))
+
+print(Pie, tag='chart')
+```
+
