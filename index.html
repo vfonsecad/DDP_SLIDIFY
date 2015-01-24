@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Internet Services Market Share</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Internet Services Market Share">
+  <meta name="author" content="Valeria Fonseca Diaz">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Internet Services Market Share</h1>
+    <h2>Find out what combo plans would give you the highest utility!</h2>
+    <p>Valeria Fonseca Diaz<br/>Statistician. Bogota, Colombia</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>What is a conjoint simulator?</h2>
+  </hgroup>
+  <article data-timings="">
+    <div class='build'>
+<p>This is a market reseach tool that provides a 'utility estimate measure' for different potential products or services that are to be offered. In this particular application, the seller is a communications company (Internet services) and utilities for 3 potencial services at a time will be obtained. </p>
+
+
+<img class='center' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6UHbBGMZaVmTiTzbZc-1bxNEBWebmMbGWHqyfAXhAiN5np-JZ4w' height=250px width=250px/>
+
+<p> A conjoint simulator is mainly thought of as a room with a number of consumers (100,500, 1000, etc) who vote for the products or services that are offered. Finally, there will be a percentage for each product or service which represents the predicted proportion of consumers that would buy it. Here consumers are segmented so filters are available. </p>
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>What does the seller need to do here?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The services that will be assessed consist of combinations of different attributes each with different options. For example:</p>
+
+<ul>
+<li>Combo plan 1: T-mobile, Up to $30, 2MB, No Wi-Fi</li>
+<li>Combo plan 2: Verizon, $30 - $50, 5MB, Customized Wi-Fi service</li>
+</ul>
+
+<p>are two different services that a company may offer. The simulator asks the seller to enter 3 combo plans. The attributes are carrier company, price, velocity and extra Wi-Fi service.</p>
+
+<p><img class='center' src='http://images.sciencedaily.com/2014/02/140227115516-large.jpg' height=250px width=350px/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:#C5CACE;">
+  <hgroup>
+    <h2>What is inside a conjoint simulator?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Here is a little simulated example of what is done. Two services will be assessed. The utility matrix has utilities for each level of each attribute and intercept, for each of 5 consumers.</p>
+
+<pre><code class="r">set.seed(21432345)
+utilities=data.frame(matrix(rnorm(5*5,5,3),5,5))# must be previously obtained
+names(utilities)=c(&quot;b0&quot;, &quot;at1_op1&quot;, &quot;at1_op2&quot;, &quot;at2_op1&quot;, &quot;at2_op2&quot;) 
+ser1&lt;-c(&quot;b0&quot;,&quot;at1_op1&quot;,&quot;at2_op2&quot;);         ser2&lt;-c(&quot;b0&quot;,&quot;at2_op1&quot;,&quot;at2_op2&quot;)
+ser1_id&lt;-which(names(utilities)%in%ser1); ser2_id&lt;-which(names(utilities)%in%ser2)
+servs_sum&lt;-data.frame(s1=apply(utilities[,ser1_id],1,sum),
+                      s2=apply(utilities[,ser2_id],1,sum))
+services_perc&lt;-apply(apply(exp(servs_sum),1,function(x)x/sum(x)),1,mean)
+data.frame(Combos=c(&quot;Combo plan 1&quot;, &quot;Combo plan 2&quot;), 
+           Share=paste(round(services_perc*100,2),&quot;%&quot;))
+</code></pre>
+
+<pre><code>##         Combos  Share
+## 1 Combo plan 1 31.6 %
+## 2 Combo plan 2 68.4 %
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Make decisions on what you get from the simulator</h2>
+  </hgroup>
+  <article data-timings="">
+    <div class='build'>
+<q> Well, there should be no doubt about what service to sell, should it? </q>
+</div>
+
+<!-- ColumnChart generated in R 3.1.2 by googleVis 0.5.7 package -->
+
+<!-- Fri Jan 23 22:16:47 2015 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataColumnChartID2093cf95b18 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Combo plan 1",
+31.6 
+],
+[
+ "Combo plan 2",
+68.4 
+] 
+];
+data.addColumn('string','Services');
+data.addColumn('number','Share');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartColumnChartID2093cf95b18() {
+var data = gvisDataColumnChartID2093cf95b18();
+var options = {};
+options["allowHtml"] = true;
+options["colors"] = ['purple'];
+options["width"] =    800;
+options["height"] =    400;
+
+    var chart = new google.visualization.ColumnChart(
+    document.getElementById('ColumnChartID2093cf95b18')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "corechart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartColumnChartID2093cf95b18);
+})();
+function displayChartColumnChartID2093cf95b18() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartColumnChartID2093cf95b18"></script>
+ 
+
+<!-- divChart -->
+
+<div id="ColumnChartID2093cf95b18" 
+  style="width: 800; height: 400;">
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='What is a conjoint simulator?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='What does the seller need to do here?'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='What is inside a conjoint simulator?'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Make decisions on what you get from the simulator'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
